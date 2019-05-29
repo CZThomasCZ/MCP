@@ -14,6 +14,6 @@ This mod creates 6 different spawn queues for SCP: Secret Laboratory
   - Instead of guards, SH spawns
 
 Dependancies:
-[Smod2]https://github.com/Grover-c13/Smod2/
-[Gamemode Manager]https://github.com/ShingekiNoRex/SCPSL-Gamemode-Manager/
-[Serpent's Hand]https://github.com/Cyanox62/SerpentsHand
+[Smod2](https://github.com/Grover-c13/Smod2/)
+[Gamemode Manager](https://github.com/ShingekiNoRex/SCPSL-Gamemode-Manager/)
+[Serpent's Hand](https://github.com/Cyanox62/SerpentsHand)
