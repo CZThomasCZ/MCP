@@ -16,9 +16,6 @@ namespace MCP
 {
     public class PluginHandler : IEventHandlerRoundStart, IEventHandlerPlayerDie
     {
-        private readonly string broadcast_error = "Config error";
-        private readonly string cassie_error = "CORRUPTED CODE PITCH_1,5 CORRUPTED CODE PITCH_2 CORRUPTED CODE PITCH_2,5 CORRUPTED CODE PITCH_3 CORRUPTED CODE";
-
         public void OnRoundStart(RoundStartEvent ev)
         {   //Broadcast current gamemode + announce it using C.A.S.S.I.E.
             string gamemode = GamemodeManager.GamemodeManager.GetCurrentName();
@@ -27,24 +24,24 @@ namespace MCP
 
             if (gamemode == "LCZ Escape")
             {
-                broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_lcz_broadcast", broadcast_error, false);
-                cassie = ConfigManager.Manager.Config.GetStringValue("mcp_lcz_cassie", cassie_error, false);
+                broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_lcz_broadcast", "LCZ Escape", false);
+                cassie = ConfigManager.Manager.Config.GetStringValue("mcp_lcz_cassie", "LIGHT CONTAINMENT ZONE BREACH DETECTED", false);
             }
             else if (gamemode == "Normal gamemode")
             {
-                broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_normal_broadcast", broadcast_error, false);
-                cassie = ConfigManager.Manager.Config.GetStringValue("mcp_normal_cassie", cassie_error, false);
+                broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_normal_broadcast", "Normal", false);
+                cassie = ConfigManager.Manager.Config.GetStringValue("mcp_normal_cassie", "CRITICAL CONTAINMENT BREACH DETECTED", false);
             }
             else if (gamemode == "D-Boiz escape")
             {
-                broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_dboiz_broadcast", broadcast_error, false);
-                cassie = ConfigManager.Manager.Config.GetStringValue("mcp_dboiz_cassie", cassie_error, false);
+                broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_dboiz_broadcast", "Class-D Escape", false);
+                cassie = ConfigManager.Manager.Config.GetStringValue("mcp_dboiz_cassie", "WARNING CLASSD CONTAINMENT FAILURE", false);
             }
             else if (gamemode == "MTF Recontainment")
             {
-                broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_mtf_broadcast", broadcast_error, false);
-                cassie = ConfigManager.Manager.Config.GetStringValue("mcp_mtf_cassie", cassie_error, false);
-                
+                broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_mtf_broadcast", "SCP Recontainment", false);
+                cassie = ConfigManager.Manager.Config.GetStringValue("mcp_mtf_cassie", "MTFUNIT EPSILON 11 DESIGNATED NINETAILEDFOX ENTERED pitch_1,02 NO pitch_1,01 REMAINING pitch_1 FOUNDATION PERSONNEL ALIVE", false);
+
                 // Respawn guards as a MTF Unit
                 int MTFs = 0;
                 foreach (Player player in PluginManager.Manager.Server.GetPlayers(Role.FACILITY_GUARD))
@@ -83,18 +80,19 @@ namespace MCP
                 }
                 if (SH == false)
                 {
-                    broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_raid_broadcast_ci", broadcast_error, false);
-                    cassie = ConfigManager.Manager.Config.GetStringValue("mcp_raid_cassie_ci", cassie_error, false);
+                    broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_raid_broadcast_ci", "Facility Raid", false);
+                    cassie = ConfigManager.Manager.Config.GetStringValue("mcp_raid_cassie_ci", "WARNING CHAOSINSURGENCY ENTERED ALLREMAINING", false);
                 } else
                 {
-                    broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_raid_broadcast_sh", broadcast_error, false);
-                    cassie = ConfigManager.Manager.Config.GetStringValue("mcp_raid_cassie_sh", cassie_error, false);
+                    broadcast = ConfigManager.Manager.Config.GetStringValue("mcp_raid_broadcast_sh", "Facility Raid", false);
+                    cassie = ConfigManager.Manager.Config.GetStringValue("mcp_raid_cassie_sh", "WARNING SERPENTS HAND ENTERED ALLREMAINING", false);
                 }
 
             }
 
-            PluginManager.Manager.Server.Map.Broadcast(10, "Current gamemode: " + broadcast, false);
-            PluginManager.Manager.Server.Map.AnnounceCustomMessage(cassie);
+            //Empty string catcher (invalid config / don't actually want to broadcast/C.A.S.S.I.E.
+            if (broadcast != "") PluginManager.Manager.Server.Map.Broadcast(10, "Current gamemode: " + broadcast, false);
+            if (cassie != "") PluginManager.Manager.Server.Map.AnnounceCustomMessage(cassie);
         }
 
         public void OnPlayerDie(PlayerDeathEvent ev)
