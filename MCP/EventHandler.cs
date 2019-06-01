@@ -72,8 +72,8 @@ namespace MCP
                     Random random;
                     random = new Random();
                     double Chance = random.NextDouble(); // Gets value between 0.0 and 1.0
-                    if (Chance < 0.5) SH = true;
-
+                    double SHChance = ConfigManager.Manager.Config.GetFloatValue("mcp_raid_shchance", 0.5f);
+                    if (Chance < SHChance) SH = true;
                 }
 
                 foreach (Player player in PluginManager.Manager.Server.GetPlayers(Role.SPECTATOR))
